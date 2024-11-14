@@ -1,4 +1,4 @@
-/******************************************************************************
+/*****************************************************************************
  * Copyright (C) 2017 by Alex Fosdick - University of Colorado
  *
  * Redistribution, modification or use of this software in source or binary
@@ -9,13 +9,15 @@
  *
  *****************************************************************************/
 /**
- * @file <Add File Name> 
- * @brief <Add Brief Description Here >
+ * stats.c
+ * Implementation file, for the several statistical functions
  *
- * <Add Extended Description Here>
+ * 
+
+ 
  *
- * @author <Add FirsName LastName>
- * @date <Add date >
+ * Abdulmomen Ghalkha
+ * 14/11/2024
  *
  */
 
@@ -37,7 +39,67 @@ void main() {
 
   /* Other Variable Declarations Go Here */
   /* Statistics and Printing Functions Go Here */
+  print_statistics(test, SIZE);
 
 }
 
 /* Add other Implementation File Code Here */
+void print_statistics(unsigned char * array, unsigned int size)
+{
+
+  printf("median = %.3f\nmean = %.3f\nmax = %d\nmin = %d\n", find_median(array, size), find_mean(array, size), find_maximum(array, size), find_minimum(array, size));
+
+}
+
+void print_array(unsigned char * array, unsigned int size){
+  for (unsigned int i = 0; i < size; i++)
+    printf("%d\n", array[i]);
+
+}
+
+float find_median(unsigned char * array, unsigned int size){
+  sort_array(array, size);
+  float median = 0;
+  if (size % 2 == 1)  median = array[size / 2 + 1];
+  else median = (array[size / 2 ] + array[size / 2 - 1]) / 2.0;
+  return median;
+
+}
+
+float find_mean(unsigned char * array, unsigned int size){
+  float mean = 0;
+  for (int i = 0; i < size; i++) mean += (unsigned int) array[i];
+  return mean /= size;
+}
+
+unsigned char find_maximum(unsigned char * array, unsigned int size){
+  unsigned char max = 0x00;
+  for (int i = 0; i < size; i++)
+    if (array[i] > max)
+      max = array[i];
+  
+  return max;
+}
+
+unsigned char find_minimum(unsigned char * array, unsigned int size){
+  unsigned char min = 0xff;
+  for (int i = 0; i < size; i++)
+    if (array[i] < min)
+      min = array[i];
+  
+  return min;
+}
+
+void sort_array(unsigned char * array, unsigned int size){
+  unsigned char element = 0x00;
+  for (int i = 0; i < size; i++){
+    element = array[i];
+    for (int j = i + 1; j < size; j++){
+      if (element < array[j]){
+        array[i] = array[j];
+        array[j] = element;
+        element = array[i];
+      }
+    }
+  }
+}
